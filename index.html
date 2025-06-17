@@ -121,6 +121,11 @@
             </div>
 
             <div class="form-group">
+                <label for="empresa">Empresa</label>
+                <input type="text" id="empresa" name="Empresa" placeholder="Nome da sua empresa ou 'Visitante'" required>
+            </div>
+
+            <div class="form-group">
                 <label for="cpf">CPF</label>
                 <input type="text" id="cpf" name="CPF" placeholder="000.000.000-00" required>
             </div>
@@ -140,7 +145,6 @@
             <input type="hidden" name="_next" value="https://www.google.com">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
-            
             <input type="hidden" id="dispositivo-navegador" name="Dispositivo/Navegador">
 
             <button type="submit" class="submit-btn">Acessar a Rede</button>
@@ -149,21 +153,16 @@
     </main>
 
     <script>
-        // --- NOVO: SCRIPT PARA CAPTURAR DADOS DO DISPOSITIVO ---
+        // Captura dados do dispositivo assim que a página carrega
         document.addEventListener('DOMContentLoaded', function() {
-            // Pega a string do User-Agent do navegador
             const userAgentInfo = navigator.userAgent;
-            
-            // Encontra o campo oculto no formulário
             const hiddenInput = document.getElementById('dispositivo-navegador');
-            
-            // Atribui a informação do User-Agent ao valor do campo oculto
             if (hiddenInput) {
                 hiddenInput.value = userAgentInfo;
             }
         });
 
-        // --- FUNÇÃO DE VALIDAÇÃO DE CPF (sem alterações) ---
+        // Validação do CPF
         function validaCPF(cpf) {
             cpf = cpf.replace(/[^\d]+/g, '');
             if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
@@ -180,12 +179,14 @@
             return true;
         }
 
-        // --- LÓGICA DO FORMULÁRIO (sem alterações) ---
+        // Lógica de submissão do formulário
         const form = document.getElementById('captive-portal-form');
         const cpfInput = document.getElementById('cpf');
         const errorMessage = document.getElementById('error-cpf');
 
         form.addEventListener('submit', function(event) {
+            // O atributo 'required' nos campos já faz a validação de preenchimento obrigatório.
+            // O script abaixo só roda se todos os campos estiverem preenchidos.
             event.preventDefault();
             const cpfValue = cpfInput.value;
             if (validaCPF(cpfValue)) {
