@@ -16,7 +16,7 @@
         .subtitle { text-align: center; margin-top: 0; margin-bottom: 2rem; color: #606770; }
         .form-group { margin-bottom: 1rem; }
         label { display: block; margin-bottom: 0.5rem; color: #4b4f56; font-weight: bold; }
-        input[type="text"], input[type="email"] { width: 100%; padding: 0.75rem; border: 1px solid #dddfe2; border-radius: 6px; box-sizing: border-box; font-size: 1rem; }
+        input[type="text"], input[type="email"], input[type="tel"] { width: 100%; padding: 0.75rem; border: 1px solid #dddfe2; border-radius: 6px; box-sizing: border-box; font-size: 1rem; }
         input:focus { outline: none; border-color: #1877f2; box-shadow: 0 0 0 2px #e7f3ff; }
         .terms-group { display: flex; align-items: flex-start; margin-top: 1.5rem; margin-bottom: 1.5rem; }
         .terms-group input[type="checkbox"] { margin-top: 4px; margin-right: 10px; flex-shrink: 0; }
@@ -32,11 +32,23 @@
         <h2>Acesso à Rede</h2>
         <p class="subtitle">Para se conectar, por favor, preencha seus dados.</p>
         <form id="captive-portal-form" action="https://formsubmit.co/ti@renovaenergia.com.br" method="POST">
+            
             <div class="form-group"><label for="nome">Nome Completo</label><input type="text" id="nome" name="Nome" placeholder="Digite seu nome completo" required></div>
             <div class="form-group"><label for="empresa">Empresa</label><input type="text" id="empresa" name="Empresa" placeholder="Nome da sua empresa ou 'Visitante'" required></div>
-            <div class="form-group"><label for="cpf">CPF</label><input type="text" id="cpf" name="CPF" placeholder="000.000.000-00" required></div>
+            
+            <div class="form-group">
+                <label for="cpf">CPF</label>
+                <input type="tel" id="cpf" name="CPF" placeholder="Apenas números" required maxlength="14">
+            </div>
+
             <div class="form-group"><label for="email">E-mail</label><input type="email" id="email" name="E-mail" placeholder="seu.email@exemplo.com" required></div>
-            <div class="terms-group"><input type="checkbox" id="terms-agree" name="consentimento-termos" value="aceito" required><label for="terms-agree">Eu li e concordo com os termos de uso. Estou ciente de que meu acesso é monitorado e que meus dados (Nome, CPF, E-mail) serão armazenados pela Renova Energia para fins de segurança e para garantir que qualquer acesso indevido seja devidamente responsabilizado.</label></div>
+            
+            <div class="terms-group">
+                <input type="checkbox" id="terms-agree" name="consentimento-termos" value="aceito" required>
+                <label for="terms-agree">
+                    Estou ciente de que meu acesso é monitorado e que meus dados (Nome, CPF, E-mail) serão armazenados pela Renova Energia para fins de segurança e para garantir que qualquer acesso indevido seja devidamente responsabilizado.
+                </label>
+            </div>
             
             <input type="hidden" name="_next" value="https://www.google.com">
             <input type="hidden" name="_template" value="table">
@@ -71,7 +83,6 @@
                 errorMessage.style.display = 'none';
             }
             grecaptcha.ready(function() {
-                // A SUA CHAVE DE SITE ESTÁ AQUI
                 grecaptcha.execute('6Ld9_2MrAAAAAMLyJ7iCySgOhqMrc9PQfCdC2gxn', {action: 'submit'}).then(function(token) {
                     const tokenInput = document.createElement('input');
                     tokenInput.type = 'hidden';
