@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acesso à Rede Wi-Fi - Renova Energia</title>
     <style>
-        /* CSS para estilização da página */
+        /* CSS para estilização da página (sem alterações) */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f0f2f5;
@@ -28,7 +28,7 @@
         }
         .logo {
             display: block;
-            max-width: 200px; /* Ajuste o tamanho conforme necessário */
+            max-width: 200px;
             margin: 0 auto 1.5rem auto;
         }
         h2 {
@@ -73,7 +73,7 @@
         .terms-group input[type="checkbox"] {
             margin-top: 4px;
             margin-right: 10px;
-            flex-shrink: 0; /* Impede que o checkbox encolha */
+            flex-shrink: 0;
         }
         .terms-group label {
             font-size: 0.85rem;
@@ -101,7 +101,7 @@
             font-size: 0.9rem;
             margin-top: 5px;
             text-align: center;
-            display: none; /* Oculto por padrão */
+            display: none;
         }
     </style>
 </head>
@@ -140,6 +140,8 @@
             <input type="hidden" name="_next" value="https://www.google.com">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
+            
+            <input type="hidden" id="dispositivo-navegador" name="Dispositivo/Navegador">
 
             <button type="submit" class="submit-btn">Acessar a Rede</button>
             <p id="error-cpf" class="error-message">CPF inválido. Por favor, verifique os dados.</p>
@@ -147,7 +149,21 @@
     </main>
 
     <script>
-        // --- FUNÇÃO DE VALIDAÇÃO DE CPF ---
+        // --- NOVO: SCRIPT PARA CAPTURAR DADOS DO DISPOSITIVO ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pega a string do User-Agent do navegador
+            const userAgentInfo = navigator.userAgent;
+            
+            // Encontra o campo oculto no formulário
+            const hiddenInput = document.getElementById('dispositivo-navegador');
+            
+            // Atribui a informação do User-Agent ao valor do campo oculto
+            if (hiddenInput) {
+                hiddenInput.value = userAgentInfo;
+            }
+        });
+
+        // --- FUNÇÃO DE VALIDAÇÃO DE CPF (sem alterações) ---
         function validaCPF(cpf) {
             cpf = cpf.replace(/[^\d]+/g, '');
             if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
@@ -164,18 +180,14 @@
             return true;
         }
 
-        // --- LÓGICA DO FORMULÁRIO ---
+        // --- LÓGICA DO FORMULÁRIO (sem alterações) ---
         const form = document.getElementById('captive-portal-form');
         const cpfInput = document.getElementById('cpf');
         const errorMessage = document.getElementById('error-cpf');
 
         form.addEventListener('submit', function(event) {
-            // O atributo 'required' no checkbox e nos outros campos já bloqueia o envio se não estiverem preenchidos.
-            // Esta validação de CPF roda apenas se todos os campos obrigatórios estiverem preenchidos.
             event.preventDefault();
-
             const cpfValue = cpfInput.value;
-            
             if (validaCPF(cpfValue)) {
                 errorMessage.style.display = 'none';
                 form.submit();
