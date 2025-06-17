@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acesso à Rede Wi-Fi</title>
+    <title>Acesso à Rede Wi-Fi - Renova Energia</title>
     <style>
         /* CSS para estilização da página */
         body {
@@ -12,8 +12,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
         .container {
             background-color: #fff;
@@ -21,13 +23,24 @@
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             box-sizing: border-box;
+        }
+        .logo {
+            display: block;
+            max-width: 200px; /* Ajuste o tamanho conforme necessário */
+            margin: 0 auto 1.5rem auto;
         }
         h2 {
             text-align: center;
             color: #1c1e21;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            color: #606770;
         }
         .form-group {
             margin-bottom: 1rem;
@@ -50,6 +63,23 @@
             outline: none;
             border-color: #1877f2;
             box-shadow: 0 0 0 2px #e7f3ff;
+        }
+        .terms-group {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .terms-group input[type="checkbox"] {
+            margin-top: 4px;
+            margin-right: 10px;
+            flex-shrink: 0; /* Impede que o checkbox encolha */
+        }
+        .terms-group label {
+            font-size: 0.85rem;
+            font-weight: normal;
+            color: #606770;
+            line-height: 1.4;
         }
         .submit-btn {
             width: 100%;
@@ -78,10 +108,13 @@
 <body>
 
     <main class="container">
-        <form id="captive-portal-form" action="https://formsubmit.co/SEU-EMAIL-AQUI" method="POST">
-            <h2>Bem-vindo!</h2>
-            <p style="text-align:center; margin-top:-1rem; margin-bottom: 2rem; color: #606770;">Para acessar a internet, por favor, preencha seus dados abaixo.</p>
+        <img src="https://www.renovaenergia.com.br/wp-content/themes/renova/logo.jpg" alt="Logo da Renova Energia" class="logo">
+        
+        <h2>Acesso à Rede</h2>
+        <p class="subtitle">Para se conectar, por favor, preencha seus dados.</p>
 
+        <form id="captive-portal-form" action="https://formsubmit.co/ti@renovaenergia.com.br" method="POST">
+            
             <div class="form-group">
                 <label for="nome">Nome Completo</label>
                 <input type="text" id="nome" name="Nome" placeholder="Digite seu nome completo" required>
@@ -97,7 +130,18 @@
                 <input type="email" id="email" name="E-mail" placeholder="seu.email@exemplo.com" required>
             </div>
 
-            <input type="hidden" name="_next" value="https://www.google.com"> <input type="hidden" name="_captcha" value="false"> <input type="hidden" name="_template" value="table"> <button type="submit" class="submit-btn">Acessar a Rede</button>
+            <div class="terms-group">
+                <input type="checkbox" id="terms-agree" name="consentimento-termos" value="aceito" required>
+                <label for="terms-agree">
+                    Eu li e concordo com os termos de uso. Estou ciente de que meu acesso é monitorado e que meus dados (Nome, CPF, E-mail) serão armazenados pela Renova Energia para fins de segurança e para garantir que qualquer acesso indevido seja devidamente responsabilizado.
+                </label>
+            </div>
+
+            <input type="hidden" name="_next" value="https://www.google.com">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+
+            <button type="submit" class="submit-btn">Acessar a Rede</button>
             <p id="error-cpf" class="error-message">CPF inválido. Por favor, verifique os dados.</p>
         </form>
     </main>
@@ -126,18 +170,16 @@
         const errorMessage = document.getElementById('error-cpf');
 
         form.addEventListener('submit', function(event) {
-            // Previne o envio automático do formulário para validar primeiro
+            // O atributo 'required' no checkbox e nos outros campos já bloqueia o envio se não estiverem preenchidos.
+            // Esta validação de CPF roda apenas se todos os campos obrigatórios estiverem preenchidos.
             event.preventDefault();
 
             const cpfValue = cpfInput.value;
             
-            // Verifica se o CPF é válido
             if (validaCPF(cpfValue)) {
-                // Se for válido, esconde a mensagem de erro e envia o formulário
                 errorMessage.style.display = 'none';
                 form.submit();
             } else {
-                // Se for inválido, mostra a mensagem de erro e não envia
                 errorMessage.style.display = 'block';
             }
         });
@@ -145,4 +187,3 @@
 
 </body>
 </html>
-
